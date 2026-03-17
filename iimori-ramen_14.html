@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iimori Ramen — Berlin Mitte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Shippori+Mincho:wght@400;500;600&family=Karla:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0c0a08;
+    --ink-light: #1a1612;
+    --ember: #c8762a;
+    --ember-light: #e8954a;
+    --cream: #f2ead8;
+    --cream-dim: #d6c9aa;
+    --white: #faf6f0;
+    --border: rgba(200,118,42,0.2);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--ink); color:var(--cream); font-family:'Karla',sans-serif; font-weight:300; overflow-x:hidden; }
+
+  /* ── LANGUAGE DROPDOWN ───────────────────────── */
+  .lang-dropdown {
+    position: relative;
+    flex-shrink: 0;
+    z-index: 999;
+  }
+  .lang-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.48rem 0.75rem;
+    cursor: pointer;
+    color: var(--cream);
+    font-family: 'Karla', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    line-height: 1;
+    user-select: none;
+  }
+  .lang-trigger:hover,
+  .lang-dropdown.open .lang-trigger {
+    background: rgba(200,118,42,0.15);
+    border-color: rgba(200,118,42,0.5);
+  }
+  .lang-trigger .t-flag {
+    width: 22px; height: 16px;
+    object-fit: cover;
+    border-radius: 2px;
+    display: block;
+    flex-shrink: 0;
+  }
+  .lang-trigger .t-code { font-size: 0.68rem; letter-spacing: 0.12em; }
+  .lang-trigger .t-caret {
+    width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--ember);
+    margin-left: 2px;
+    transition: transform 0.22s ease;
+    flex-shrink: 0;
+  }
+  .lang-dropdown.open .t-caret { transform: rotate(180deg); }
+
+  /* dropdown panel — hidden by default via display:none */
+  .lang-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 148px;
+    background: #1e1a15;
+    border: 1px solid rgba(200,118,42,0.25);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    z-index: 9999;
+  }
+  .lang-dropdown.open .lang-menu { display: block; }
+
+  .lang-option {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(200,118,42,0.08);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-align: left;
+  }
+  .lang-option:last-child { border-bottom: none; }
+  .lang-option:hover { background: rgba(200,118,42,0.12); }
+  .lang-option.sel { background: rgba(200,118,42,0.16); }
+  .lang-option .o-flag {
+    width: 26px; height: 19px;
+    object-fit: cover;
+    border-radius: 2px;
+    flex-shrink: 0;
+    display: block;
+  }
+  .lang-option .o-info { display: flex; flex-direction: column; gap: 2px; }
+  .lang-option .o-code {
+    font-family: 'Karla', sans-serif;
+    font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--cream); line-height: 1;
+  }
+  .lang-option .o-name {
+    font-family: 'Karla', sans-serif;
+    font-size: 0.62rem; color: var(--cream-dim);
+    letter-spacing: 0.03em; line-height: 1;
+  }
+  .lang-option.sel .o-code { color: var(--ember); }
+  .lang-option .o-dot {
+    margin-left: auto;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--ember);
+    flex-shrink: 0;
+    visibility: hidden;
+  }
+  .lang-option.sel .o-dot { visibility: visible; }
+
+  /* ── NAV ─────────────────────────────────────── */
+  nav {
+    position:fixed; top:0; left:0; width:100%; z-index:100;
+    padding:1.4rem 4rem;
+    display:flex; align-items:center; justify-content:space-between;
+    background:linear-gradient(to bottom,rgba(12,10,8,0.95),transparent);
+    transition:background 0.4s;
+  }
+  nav.scrolled { background:rgba(12,10,8,0.97); border-bottom:1px solid var(--border); }
+  .nav-logo { font-family:'Shippori Mincho',serif; font-size:1.5rem; letter-spacing:0.05em; color:var(--cream); text-decoration:none; flex-shrink:0; }
+  .nav-logo span { color:var(--ember); }
+  .nav-center { display:flex; gap:2.5rem; list-style:none; }
+  .nav-center a { font-size:0.78rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--cream-dim); text-decoration:none; transition:color 0.3s; }
+  .nav-center a:hover { color:var(--ember-light); }
+  .nav-right { display:flex; align-items:center; gap:1.4rem; }
+  .nav-reserve { font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; border:1px solid var(--ember); color:var(--ember); padding:0.55rem 1.4rem; text-decoration:none; transition:all 0.3s; white-space:nowrap; }
+  .nav-reserve:hover { background:var(--ember); color:var(--ink); }
+  .menu-toggle { display:none; background:none; border:none; cursor:pointer; }
+  .menu-toggle span { display:block; width:22px; height:1px; background:var(--cream); margin:5px 0; }
+
+  /* ── HERO ────────────────────────────────────── */
+  .hero { height:100vh; position:relative; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden; }
+  .hero-bg { position:absolute; inset:0; background-image:url('https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=1800&q=85&fit=crop'); background-size:cover; background-position:center; transform:scale(1.08); animation:heroScale 18s ease-in-out infinite alternate; }
+  @keyframes heroScale { from{transform:scale(1.08);}to{transform:scale(1.0);} }
+  .hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(12,10,8,0.55) 0%,rgba(12,10,8,0.3) 40%,rgba(12,10,8,0.7) 80%,rgba(12,10,8,1) 100%); }
+  .steam-container { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .steam { position:absolute; bottom:30%; width:3px; border-radius:50%; background:radial-gradient(ellipse,rgba(255,255,255,0.08),transparent); animation:steamRise 6s ease-in-out infinite; filter:blur(6px); }
+  .steam:nth-child(1){left:44%;height:120px;animation-duration:5s;}
+  .steam:nth-child(2){left:48%;height:90px;animation-delay:1.5s;animation-duration:7s;}
+  .steam:nth-child(3){left:52%;height:100px;animation-delay:0.8s;animation-duration:6s;}
+  .steam:nth-child(4){left:56%;height:80px;animation-delay:2.2s;animation-duration:5.5s;}
+  .steam:nth-child(5){left:40%;height:70px;animation-delay:3s;animation-duration:8s;}
+  @keyframes steamRise { 0%{transform:translateY(0) scaleX(1);opacity:0;}20%{opacity:1;}80%{opacity:0.3;}100%{transform:translateY(-220px) scaleX(2.5);opacity:0;} }
+  .hero-content { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; }
+  .hero-kana { font-family:'Shippori Mincho',serif; font-size:0.85rem; letter-spacing:0.6em; color:var(--ember); margin-bottom:1.5rem; animation:fadeUp 1.2s ease 0.3s both; }
+  .hero-title { font-family:'Cormorant Garamond',serif; font-size:clamp(4.5rem,10vw,9rem); font-weight:300; line-height:0.9; color:var(--white); animation:fadeUp 1.2s ease 0.5s both; }
+  .hero-title em { font-style:italic; color:var(--cream-dim); }
+  .hero-tagline { margin-top:1.8rem; font-size:0.8rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--cream-dim); animation:fadeUp 1.2s ease 0.7s both; }
+  .hero-divider { width:40px; height:1px; background:var(--ember); margin:1.5rem auto; animation:fadeUp 1.2s ease 0.9s both; }
+  .hero-actions { display:flex; gap:1.2rem; animation:fadeUp 1.2s ease 1.1s both; }
+  .btn-primary { padding:0.85rem 2.5rem; background:var(--ember); color:var(--ink); font-family:'Karla',sans-serif; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; text-decoration:none; transition:background 0.3s; }
+  .btn-primary:hover { background:var(--ember-light); }
+  .btn-outline { padding:0.85rem 2.5rem; border:1px solid rgba(242,234,216,0.35); color:var(--cream); font-family:'Karla',sans-serif; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; text-decoration:none; transition:all 0.3s; }
+  .btn-outline:hover { border-color:var(--cream); }
+  .hero-scroll { position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:0.5rem; animation:fadeUp 1s ease 1.5s both; }
+  .hero-scroll span { font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; color:rgba(242,234,216,0.4); }
+  .scroll-line { width:1px; height:50px; background:linear-gradient(to bottom,var(--ember),transparent); animation:scrollPulse 2s ease-in-out infinite; }
+  @keyframes scrollPulse { 0%,100%{opacity:0.3;}50%{opacity:1;} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);} }
+
+  /* ── INFO BAR ────────────────────────────────── */
+  .info-bar { background:var(--ink-light); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:2rem 4rem; display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; text-align:center; }
+  .info-item { display:flex; flex-direction:column; gap:0.4rem; }
+  .info-item-label { font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--ember); }
+  .info-item-value { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--cream); line-height:1.5; }
+  .info-divider { border:none; border-left:1px solid var(--border); }
+
+  /* ── SECTIONS ────────────────────────────────── */
+  section { padding:7rem 4rem; }
+  .section-label { font-size:0.68rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--ember); margin-bottom:1rem; }
+
+  /* ── ABOUT ───────────────────────────────────── */
+  .about { display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; max-width:1200px; margin:0 auto; }
+  .about-image-wrap { position:relative; }
+  .about-image-wrap img { width:100%; height:500px; object-fit:cover; display:block; }
+  .about-image-accent { position:absolute; bottom:-2rem; right:-2rem; width:45%; height:45%; border:1px solid var(--border); z-index:-1; }
+  .about-kanji { position:absolute; top:1.5rem; left:-1.5rem; font-family:'Shippori Mincho',serif; font-size:5rem; color:rgba(200,118,42,0.12); line-height:1; pointer-events:none; user-select:none; }
+  .about-text h2 { font-family:'Cormorant Garamond',serif; font-size:3.2rem; font-weight:300; line-height:1.15; color:var(--white); margin-bottom:1.5rem; }
+  .about-text h2 em { font-style:italic; color:var(--cream-dim); }
+  .about-text p { font-size:0.95rem; line-height:1.85; color:var(--cream-dim); margin-bottom:1.2rem; }
+  .about-stats { display:flex; gap:2.5rem; margin-top:2.5rem; padding-top:2.5rem; border-top:1px solid var(--border); }
+  .stat-num { font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:300; color:var(--ember); line-height:1; }
+  .stat-label { font-size:0.68rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--cream-dim); margin-top:0.3rem; }
+
+  /* ── MENU ────────────────────────────────────── */
+  .menu-section { background:var(--ink-light); border-top:1px solid var(--border); }
+  .menu-inner { max-width:1200px; margin:0 auto; }
+  .menu-header { text-align:center; margin-bottom:4rem; }
+  .menu-header h2 { font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--white); }
+  .menu-header p { margin-top:0.8rem; font-size:0.88rem; color:var(--cream-dim); line-height:1.7; }
+  .menu-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+  .menu-card { position:relative; overflow:hidden; aspect-ratio:3/4; cursor:pointer; }
+  .menu-card img { width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease; filter:brightness(0.7); }
+  .menu-card:hover img { transform:scale(1.06); filter:brightness(0.5); }
+  .menu-card-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(12,10,8,0.9) 0%,transparent 60%); display:flex; flex-direction:column; justify-content:flex-end; padding:2rem 1.8rem; }
+  .menu-card-tag { font-size:0.62rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--ember); margin-bottom:0.5rem; }
+  .menu-card-name { font-family:'Cormorant Garamond',serif; font-size:1.7rem; font-weight:400; color:var(--white); line-height:1.1; }
+  .menu-card-desc { font-size:0.78rem; color:var(--cream-dim); line-height:1.6; margin-top:0.5rem; max-height:0; overflow:hidden; transition:max-height 0.4s ease; }
+  .menu-card:hover .menu-card-desc { max-height:80px; }
+  .menu-card-price { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--ember); margin-top:0.7rem; }
+  .menu-cta { text-align:center; margin-top:3.5rem; }
+
+  /* ── QUOTE ───────────────────────────────────── */
+  .quote-section { position:relative; padding:10rem 4rem; text-align:center; overflow:hidden; }
+  .quote-bg { position:absolute; inset:0; background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?w=1600&q=80&fit=crop'); background-size:cover; background-position:center; filter:brightness(0.25) saturate(0.5); }
+  .quote-content { position:relative; z-index:2; }
+  .quote-kanji { font-family:'Shippori Mincho',serif; font-size:6rem; color:rgba(200,118,42,0.15); display:block; margin-bottom:1rem; }
+  .quote-text { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3.5rem); font-weight:300; font-style:italic; color:var(--white); max-width:800px; margin:0 auto; line-height:1.3; }
+  .quote-attribution { margin-top:2rem; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember); }
+
+  /* ── GALLERY ─────────────────────────────────── */
+  .gallery-section { padding-top:0; }
+  .gallery-inner { max-width:1200px; margin:0 auto; }
+  .gallery-header { text-align:center; margin-bottom:3rem; }
+  .gallery-header h2 { font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--white); }
+  .gallery-grid { display:grid; grid-template-columns:repeat(12,1fr); grid-template-rows:220px 220px; gap:4px; }
+  .g1{grid-column:1/6;grid-row:1/2;} .g2{grid-column:6/9;grid-row:1/2;} .g3{grid-column:9/13;grid-row:1/3;} .g4{grid-column:1/4;grid-row:2/3;} .g5{grid-column:4/9;grid-row:2/3;}
+  .gallery-item { overflow:hidden; }
+  .gallery-item img { width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease,filter 0.4s; filter:brightness(0.85) saturate(0.9); }
+  .gallery-item:hover img { transform:scale(1.05); filter:brightness(1) saturate(1.1); }
+
+  /* ── VISIT ───────────────────────────────────── */
+  .info-section { background:var(--ink-light); border-top:1px solid var(--border); }
+  .info-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1px 1fr 1px 1fr; }
+  .info-col { padding:0 4rem; text-align:center; }
+  .info-col:first-child{padding-left:0;} .info-col:last-child{padding-right:0;}
+  .info-vertical-line { background:var(--border); }
+  .info-col h3 { font-family:'Shippori Mincho',serif; font-size:0.8rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--ember); margin-bottom:1.8rem; }
+  .hours-list { list-style:none; }
+  .hours-list li { display:flex; justify-content:space-between; font-size:0.88rem; color:var(--cream-dim); padding:0.4rem 0; border-bottom:1px solid rgba(200,118,42,0.1); }
+  .hours-list li:last-child { border-bottom:none; }
+  .hours-list .day { color:var(--cream); }
+  .address-text { font-family:'Cormorant Garamond',serif; font-size:1.3rem; line-height:1.8; color:var(--cream); }
+  .address-link { display:inline-block; margin-top:1.2rem; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember); text-decoration:none; border-bottom:1px solid var(--ember); padding-bottom:2px; transition:color 0.3s; }
+  .address-link:hover { color:var(--ember-light); }
+  .contact-list { list-style:none; }
+  .contact-list li { margin-bottom:1.2rem; }
+  .contact-list .contact-label { font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember); display:block; margin-bottom:0.2rem; }
+  .contact-list a, .contact-list span { font-family:'Cormorant Garamond',serif; font-size:1.15rem; color:var(--cream); text-decoration:none; }
+  .contact-list a:hover { color:var(--ember); }
+
+  /* ── MAP & FOOTER ────────────────────────────── */
+  .map-section { padding:0; }
+  .map-section iframe { width:100%; height:400px; border:none; filter:invert(92%) hue-rotate(180deg) brightness(0.85) saturate(0.7); }
+  footer { background:var(--ink); border-top:1px solid var(--border); padding:3.5rem 4rem; display:flex; align-items:center; justify-content:space-between; }
+  .footer-logo { font-family:'Shippori Mincho',serif; font-size:1.5rem; color:var(--cream); }
+  .footer-logo span { color:var(--ember); }
+  .footer-links { display:flex; gap:2rem; list-style:none; }
+  .footer-links a { font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--cream-dim); text-decoration:none; transition:color 0.3s; }
+  .footer-links a:hover { color:var(--ember); }
+  .footer-copy { font-size:0.72rem; color:rgba(214,201,170,0.4); }
+
+  /* ── SCROLL REVEAL ───────────────────────────── */
+  .reveal { opacity:0; transform:translateY(40px); transition:opacity 0.8s ease,transform 0.8s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  .reveal-delay-1{transition-delay:0.1s;} .reveal-delay-2{transition-delay:0.2s;} .reveal-delay-3{transition-delay:0.3s;}
+
+  /* ── LANG FADE ───────────────────────────────── */
+  .t { transition:opacity 0.15s ease; }
+  .t.fading { opacity:0; }
+
+  /* ── RESPONSIVE ──────────────────────────────── */
+  @media(max-width:1100px){ nav{padding:1.2rem 2rem;} .nav-center{display:none;} .menu-toggle{display:block;} }
+  @media(max-width:768px){
+    section{padding:5rem 2rem;}
+    .info-bar{grid-template-columns:1fr;padding:2rem;} .info-divider{display:none;}
+    .about{grid-template-columns:1fr;gap:3rem;} .about-image-wrap img{height:320px;}
+    .menu-grid{grid-template-columns:1fr;} .menu-card{aspect-ratio:4/3;}
+    .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;} .g1,.g2,.g3,.g4,.g5{grid-column:auto;grid-row:auto;}
+    .info-grid{grid-template-columns:1fr;} .info-vertical-line{display:none;}
+    .info-col{padding:2rem 0;border-bottom:1px solid var(--border);} .info-col:last-child{border-bottom:none;}
+    footer{flex-direction:column;gap:1.5rem;text-align:center;padding:2.5rem 2rem;} .footer-links{flex-wrap:wrap;justify-content:center;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">&#39277;&#30427;<span>&#65294;</span>Iimori</a>
+  <ul class="nav-center">
+    <li><a href="#about" class="t" data-key="nav_story">Our Story</a></li>
+    <li><a href="#menu"    class="t" data-key="nav_menu">Menu</a></li>
+    <li><a href="#gallery" class="t" data-key="nav_gallery">Gallery</a></li>
+    <li><a href="#visit"   class="t" data-key="nav_visit">Visit Us</a></li>
+  </ul>
+  <div class="nav-right">
+
+    <!-- LANGUAGE DROPDOWN -->
+    <div class="lang-dropdown" id="langDropdown">
+      <button class="lang-trigger" id="langTrigger">
+        <img class="t-flag" src="https://flagcdn.com/24x18/gb.png" alt="English">
+        <span class="t-code">EN</span>
+        <span class="t-caret"></span>
+      </button>
+      <div class="lang-menu" id="langMenu">
+        <button class="lang-option sel" data-idx="0">
+          <img class="o-flag" src="https://flagcdn.com/24x18/gb.png" alt="UK">
+          <span class="o-info"><span class="o-code">EN</span><span class="o-name">English</span></span>
+          <span class="o-dot"></span>
+        </button>
+        <button class="lang-option" data-idx="1">
+          <img class="o-flag" src="https://flagcdn.com/24x18/de.png" alt="Germany">
+          <span class="o-info"><span class="o-code">DE</span><span class="o-name">Deutsch</span></span>
+          <span class="o-dot"></span>
+        </button>
+        <button class="lang-option" data-idx="2">
+          <img class="o-flag" src="https://flagcdn.com/24x18/nl.png" alt="Netherlands">
+          <span class="o-info"><span class="o-code">NL</span><span class="o-name">Nederlands</span></span>
+          <span class="o-dot"></span>
+        </button>
+      </div>
+    </div>
+
+    <a class="nav-reserve t" href="#visit" data-key="nav_reserve">Reserve a Table</a>
+    <button class="menu-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="steam-container">
+    <div class="steam"></div><div class="steam"></div><div class="steam"></div><div class="steam"></div><div class="steam"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-kana">&#12521;&#12540;&#12513;&#12531;&#12288;&#12288;&#8212; BERLIN MITTE &#8212;</p>
+    <h1 class="hero-title">Iimori<br><em>Ramen</em></h1>
+    <p class="hero-tagline t" data-key="hero_tagline">Handcrafted Broths &middot; Artisan Noodles &middot; Berlin</p>
+    <div class="hero-divider"></div>
+    <div class="hero-actions">
+      <a href="#menu"  class="btn-primary t" data-key="hero_btn1">Explore Menu</a>
+      <a href="#visit" class="btn-outline  t" data-key="hero_btn2">Find Us</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="t" data-key="scroll">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- INFO BAR -->
+<div class="info-bar">
+  <div class="info-item reveal">
+    <span class="info-item-label t" data-key="ib_loc">Location</span>
+    <span class="info-item-value">Mulackstrasse 29<br>10119 Berlin</span>
+  </div>
+  <div class="info-divider"></div>
+  <div class="info-item reveal reveal-delay-1">
+    <span class="info-item-label t" data-key="ib_hours">Opening Hours</span>
+    <span class="info-item-value t"  data-key="ib_hours_val">Tue &ndash; Sun &middot; 12:00 &ndash; 22:00<br>Monday Closed</span>
+  </div>
+  <div class="info-divider"></div>
+  <div class="info-item reveal reveal-delay-2">
+    <span class="info-item-label t" data-key="ib_res">Reservations</span>
+    <span class="info-item-value">+49 30 000 00000<br>info@iimori-ramen.de</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about">
+    <div class="about-image-wrap reveal">
+      <div class="about-kanji">&#39277;</div>
+      <img src="https://images.unsplash.com/photo-1591814468924-caf88d1232e1?w=800&q=85&fit=crop" alt="Iimori Ramen bowl">
+      <div class="about-image-accent"></div>
+    </div>
+    <div class="about-text">
+      <p class="section-label reveal t" data-key="about_label">Our Story</p>
+      <h2 class="reveal reveal-delay-1 t" data-key="about_title">Where Tokyo<br><em>meets Berlin</em></h2>
+      <p class="reveal reveal-delay-2 t" data-key="about_p1">Nestled in the heart of Berlin Mitte's vibrant Scheunenviertel quarter, Iimori Ramen brings the soul of Japanese ramen culture to the cobblestone streets of Berlin. We believe that a great bowl of ramen is not just a meal &mdash; it is a ritual.</p>
+      <p class="reveal reveal-delay-2 t" data-key="about_p2">Every broth is simmered for 18 hours. Every noodle is pulled fresh each morning. Our ingredients are sourced directly from Japanese producers and trusted Berlin-based farms, creating a bridge between two food cultures we love deeply.</p>
+      <div class="about-stats reveal reveal-delay-3">
+        <div><div class="stat-num">18h</div><div class="stat-label t" data-key="stat1">Broth Simmered</div></div>
+        <div><div class="stat-num">100%</div><div class="stat-label t" data-key="stat2">Fresh Noodles</div></div>
+        <div><div class="stat-num">6+</div><div class="stat-label t" data-key="stat3">Signature Bowls</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="menu-inner">
+    <div class="menu-header">
+      <p class="section-label reveal t" data-key="menu_label">Signature Bowls</p>
+      <h2 class="reveal reveal-delay-1 t" data-key="menu_title">Our Menu</h2>
+      <p class="reveal reveal-delay-2 t" data-key="menu_sub">Each bowl tells a story. Hover to discover ours.</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card reveal">
+        <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&q=80&fit=crop" alt="Tonkotsu Ramen">
+        <div class="menu-card-overlay">
+          <span class="menu-card-tag t" data-key="tag1">House Classic</span>
+          <div class="menu-card-name">Tonkotsu<br>Ramen</div>
+          <div class="menu-card-desc t" data-key="desc1">Creamy 18-hour pork bone broth, chashu pork belly, marinated soft-boiled egg, bamboo shoots, nori.</div>
+          <div class="menu-card-price">&euro; 16,90</div>
+        </div>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=600&q=80&fit=crop" alt="Shoyu Ramen">
+        <div class="menu-card-overlay">
+          <span class="menu-card-tag t" data-key="tag2">Chef's Choice</span>
+          <div class="menu-card-name">Shoyu<br>Ramen</div>
+          <div class="menu-card-desc t" data-key="desc2">Clear soy-seasoned chicken broth, roasted duck, menma, spring onion, sesame oil.</div>
+          <div class="menu-card-price">&euro; 15,90</div>
+        </div>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&q=80&fit=crop&crop=center" alt="Miso Ramen">
+        <div class="menu-card-overlay">
+          <span class="menu-card-tag t" data-key="tag3">Vegetarian</span>
+          <div class="menu-card-name">Shiro<br>Miso</div>
+          <div class="menu-card-desc t" data-key="desc3">White miso broth, shiitake mushrooms, roasted corn, tofu, butter, ginger oil.</div>
+          <div class="menu-card-price">&euro; 14,90</div>
+        </div>
+      </div>
+    </div>
+    <div class="menu-cta reveal">
+      <a href="#visit" class="btn-outline t" data-key="menu_cta">View Full Menu</a>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-section">
+  <div class="quote-bg"></div>
+  <div class="quote-content">
+    <span class="quote-kanji">&#39746;</span>
+    <p class="quote-text reveal t" data-key="quote">"A bowl of ramen is the quiet courage of a long simmer &mdash; patience made visible."</p>
+    <p class="quote-attribution reveal reveal-delay-1 t" data-key="quote_attr">&mdash; The Iimori Philosophy</p>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-inner">
+    <div class="gallery-header">
+      <p class="section-label reveal t" data-key="gal_label">Atmosphere</p>
+      <h2 class="reveal reveal-delay-1 t" data-key="gal_title">A Glimpse Inside</h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item g1 reveal"><img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=800&q=80&fit=crop" alt="Ramen bowl"></div>
+      <div class="gallery-item g2 reveal reveal-delay-1"><img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=600&q=80&fit=crop" alt="Ramen close-up"></div>
+      <div class="gallery-item g3 reveal reveal-delay-2"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80&fit=crop" alt="Japanese interior"></div>
+      <div class="gallery-item g4 reveal reveal-delay-1"><img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&q=80&fit=crop" alt="Bowl detail"></div>
+      <div class="gallery-item g5 reveal reveal-delay-2"><img src="https://images.unsplash.com/photo-1591814468924-caf88d1232e1?w=800&q=80&fit=crop" alt="Ramen preparation"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS & LOCATION -->
+<section class="info-section" id="visit">
+  <div class="info-grid">
+    <div class="info-col reveal">
+      <h3 class="t" data-key="visit_h1">Opening Hours</h3>
+      <ul class="hours-list">
+        <li><span class="day t" data-key="day_tuth">Tuesday &ndash; Thursday</span><span>12:00 &ndash; 21:30</span></li>
+        <li><span class="day t" data-key="day_fri">Friday</span><span>12:00 &ndash; 22:00</span></li>
+        <li><span class="day t" data-key="day_sat">Saturday</span><span>12:00 &ndash; 22:00</span></li>
+        <li><span class="day t" data-key="day_sun">Sunday</span><span>12:00 &ndash; 21:00</span></li>
+        <li><span class="day t" data-key="day_mon">Monday</span><span class="t" data-key="closed">Closed</span></li>
+      </ul>
+    </div>
+    <div class="info-vertical-line"></div>
+    <div class="info-col reveal reveal-delay-1">
+      <h3 class="t" data-key="visit_h2">Find Us</h3>
+      <p class="address-text">Mulackstrasse 29<br>10119 Berlin<br>Deutschland</p>
+      <a href="https://maps.app.goo.gl/dE7A5rhvk35hNLk68" target="_blank" class="address-link t" data-key="maps_link">Open in Google Maps &rarr;</a>
+    </div>
+    <div class="info-vertical-line"></div>
+    <div class="info-col reveal reveal-delay-2">
+      <h3 class="t" data-key="visit_h3">Contact</h3>
+      <ul class="contact-list">
+        <li><span class="contact-label t" data-key="c_phone">Phone</span><a href="tel:+493000000000">+49 30 000 00000</a></li>
+        <li><span class="contact-label t" data-key="c_email">Email</span><a href="mailto:info@iimori-ramen.de">info@iimori-ramen.de</a></li>
+        <li><span class="contact-label t" data-key="c_ubahn">Nearest U-Bahn</span><span>Rosa-Luxemburg-Platz (U2)</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<div class="map-section">
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2427.0!2d13.4042!3d52.5268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a84e3b4d7cdbeb%3A0x1!2sMulackstra%C3%9Fe+29%2C+10119+Berlin!5e0!3m2!1sen!2sde!4v1"
+    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Iimori Ramen Location"></iframe>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">&#39277;&#30427;<span>&#65294;</span>Iimori Ramen</div>
+  <ul class="footer-links">
+    <li><a href="#about"   class="t" data-key="nav_story">Our Story</a></li>
+    <li><a href="#menu"    class="t" data-key="nav_menu">Menu</a></li>
+    <li><a href="#gallery" class="t" data-key="nav_gallery">Gallery</a></li>
+    <li><a href="#visit"   class="t" data-key="nav_visit">Visit Us</a></li>
+    <li><a href="mailto:info@iimori-ramen.de" class="t" data-key="nav_contact">Contact</a></li>
+  </ul>
+  <p class="footer-copy">&copy; 2025 Iimori Ramen &middot; Berlin Mitte</p>
+</footer>
+
+<script>
+/* ── TRANSLATIONS ───────────────────────────────── */
+var langs = ['en','de','nl'];
+var T = {
+  en:{
+    nav_story:"Our Story",nav_menu:"Menu",nav_gallery:"Gallery",nav_visit:"Visit Us",nav_contact:"Contact",nav_reserve:"Reserve a Table",
+    hero_tagline:"Handcrafted Broths · Artisan Noodles · Berlin",hero_btn1:"Explore Menu",hero_btn2:"Find Us",scroll:"Scroll",
+    ib_loc:"Location",ib_hours:"Opening Hours",ib_hours_val:"Tue – Sun · 12:00 – 22:00<br>Monday Closed",ib_res:"Reservations",
+    about_label:"Our Story",about_title:"Where Tokyo<br><em>meets Berlin</em>",
+    about_p1:"Nestled in the heart of Berlin Mitte's vibrant Scheunenviertel quarter, Iimori Ramen brings the soul of Japanese ramen culture to the cobblestone streets of Berlin. We believe that a great bowl of ramen is not just a meal — it is a ritual.",
+    about_p2:"Every broth is simmered for 18 hours. Every noodle is pulled fresh each morning. Our ingredients are sourced directly from Japanese producers and trusted Berlin-based farms, creating a bridge between two food cultures we love deeply.",
+    stat1:"Broth Simmered",stat2:"Fresh Noodles",stat3:"Signature Bowls",
+    menu_label:"Signature Bowls",menu_title:"Our Menu",menu_sub:"Each bowl tells a story. Hover to discover ours.",
+    tag1:"House Classic",tag2:"Chef's Choice",tag3:"Vegetarian",
+    desc1:"Creamy 18-hour pork bone broth, chashu pork belly, marinated soft-boiled egg, bamboo shoots, nori.",
+    desc2:"Clear soy-seasoned chicken broth, roasted duck, menma, spring onion, sesame oil.",
+    desc3:"White miso broth, shiitake mushrooms, roasted corn, tofu, butter, ginger oil.",
+    menu_cta:"View Full Menu",
+    quote:'"A bowl of ramen is the quiet courage of a long simmer — patience made visible."',
+    quote_attr:"— The Iimori Philosophy",
+    gal_label:"Atmosphere",gal_title:"A Glimpse Inside",
+    visit_h1:"Opening Hours",visit_h2:"Find Us",visit_h3:"Contact",
+    day_tuth:"Tuesday – Thursday",day_fri:"Friday",day_sat:"Saturday",day_sun:"Sunday",day_mon:"Monday",closed:"Closed",
+    maps_link:"Open in Google Maps →",c_phone:"Phone",c_email:"Email",c_ubahn:"Nearest U-Bahn"
+  },
+  de:{
+    nav_story:"Unsere Geschichte",nav_menu:"Speisekarte",nav_gallery:"Galerie",nav_visit:"Besuchen",nav_contact:"Kontakt",nav_reserve:"Tisch Reservieren",
+    hero_tagline:"Handgemachte Bruhen · Frische Nudeln · Berlin",hero_btn1:"Speisekarte",hero_btn2:"Anfahrt",scroll:"Weiter",
+    ib_loc:"Adresse",ib_hours:"Offnungszeiten",ib_hours_val:"Di – So · 12:00 – 22:00<br>Montag Geschlossen",ib_res:"Reservierung",
+    about_label:"Unsere Geschichte",about_title:"Wo Tokio auf<br><em>Berlin trifft</em>",
+    about_p1:"Mitten im lebhaften Scheunenviertel in Berlin Mitte bringt Iimori Ramen die Seele der japanischen Ramen-Kultur auf das Kopfsteinpflaster Berlins. Wir glauben: Eine gute Schusssel Ramen ist mehr als eine Mahlzeit — sie ist ein Ritual.",
+    about_p2:"Jede Bruhe wird 18 Stunden lang gekochelt. Jede Nudel wird jeden Morgen frisch gezogen. Unsere Zutaten stammen direkt von japanischen Erzeugern und vertrauenswurdigen Berliner Hofen.",
+    stat1:"Stunden Kochzeit",stat2:"Frische Nudeln",stat3:"Signature Bowls",
+    menu_label:"Signature Bowls",menu_title:"Speisekarte",menu_sub:"Jede Schusssel erzahlt eine Geschichte. Entdecken Sie unsere.",
+    tag1:"Hausklassiker",tag2:"Empfehlung des Kuchenchefs",tag3:"Vegetarisch",
+    desc1:"Cremige 18-Stunden-Schweineknochenbruhe, Chashu-Schweinebauch, mariniertes Ei, Bambussprossen, Nori.",
+    desc2:"Klare Soja-Huhnerbruhe, gebratene Ente, Menma, Fruhlingszwiebeln, Sesamol.",
+    desc3:"Weisse Misobruhe, Shiitake-Pilze, geroosteter Mais, Tofu, Butter, Ingwerol.",
+    menu_cta:"Gesamte Speisekarte",
+    quote:'"Eine Schusssel Ramen ist der stille Mut eines langen Kochelns — Geduld, die sichtbar wird."',
+    quote_attr:"— Die Iimori Philosophie",
+    gal_label:"Atmosphare",gal_title:"Ein Blick ins Innere",
+    visit_h1:"Offnungszeiten",visit_h2:"So Finden Sie Uns",visit_h3:"Kontakt",
+    day_tuth:"Dienstag – Donnerstag",day_fri:"Freitag",day_sat:"Samstag",day_sun:"Sonntag",day_mon:"Montag",closed:"Geschlossen",
+    maps_link:"In Google Maps Offnen →",c_phone:"Telefon",c_email:"E-Mail",c_ubahn:"Nachste U-Bahn"
+  },
+  nl:{
+    nav_story:"Ons Verhaal",nav_menu:"Menu",nav_gallery:"Galerij",nav_visit:"Bezoek Ons",nav_contact:"Contact",nav_reserve:"Tafel Reserveren",
+    hero_tagline:"Handgemaakte Bouillon · Verse Noedels · Berlijn",hero_btn1:"Bekijk Menu",hero_btn2:"Vind Ons",scroll:"Scrollen",
+    ib_loc:"Locatie",ib_hours:"Openingstijden",ib_hours_val:"Di – Zo · 12:00 – 22:00<br>Maandag Gesloten",ib_res:"Reserveringen",
+    about_label:"Ons Verhaal",about_title:"Waar Tokio<br><em>Berlijn Ontmoet</em>",
+    about_p1:"In het hart van Berlijn Mitte's levendige Scheunenviertel brengt Iimori Ramen de ziel van de Japanse ramen-cultuur naar de kinderkopjesstraten van Berlijn. Wij geloven dat een goede kom ramen meer is dan een maaltijd — het is een ritueel.",
+    about_p2:"Elke bouillon wordt 18 uur gesuderd. Elke noedel wordt elke ochtend vers getrokken. Onze ingredienten komen rechtstreeks van Japanse producenten en vertrouwde Berlijnse boerderijen.",
+    stat1:"Uur Gesuderd",stat2:"Verse Noedels",stat3:"Signature Kommen",
+    menu_label:"Signature Kommen",menu_title:"Ons Menu",menu_sub:"Elke kom vertelt een verhaal. Beweeg om het onze te ontdekken.",
+    tag1:"Huisklassieker",tag2:"Keuze van de Chef",tag3:"Vegetarisch",
+    desc1:"Romige 18-uurs varkensbottenbouillon, chashu varkensbuik, gemarineerd ei, bamboescheuten, nori.",
+    desc2:"Heldere soja-kipbouillon, geroosterde eend, menma, lente-uitjes, sesamolie.",
+    desc3:"Witte misosoep, shiitake-paddenstoelen, geroosterde mais, tofu, boter, gemberolie.",
+    menu_cta:"Volledig Menu",
+    quote:'"Een kom ramen is de stille moed van een lang sudderen — geduld dat zichtbaar wordt."',
+    quote_attr:"— De Iimori Filosofie",
+    gal_label:"Sfeer",gal_title:"Een Blik Naar Binnen",
+    visit_h1:"Openingstijden",visit_h2:"Vind Ons",visit_h3:"Contact",
+    day_tuth:"Dinsdag – Donderdag",day_fri:"Vrijdag",day_sat:"Zaterdag",day_sun:"Zondag",day_mon:"Maandag",closed:"Gesloten",
+    maps_link:"Openen in Google Maps →",c_phone:"Telefoon",c_email:"E-mail",c_ubahn:"Dichtstbijzijnde U-Bahn"
+  }
+};
+
+var flagSrcs = ['https://flagcdn.com/24x18/gb.png','https://flagcdn.com/24x18/de.png','https://flagcdn.com/24x18/nl.png'];
+var codes    = ['EN','DE','NL'];
+var curLang  = 0;
+
+var dropEl    = document.getElementById('langDropdown');
+var triggerEl = document.getElementById('langTrigger');
+var menuEl    = document.getElementById('langMenu');
+var optEls    = menuEl.querySelectorAll('.lang-option');
+var tEls      = document.querySelectorAll('.t');
+
+/* open / close */
+triggerEl.addEventListener('click', function(e) {
+  e.stopPropagation();
+  var isOpen = dropEl.classList.contains('open');
+  if (isOpen) {
+    dropEl.classList.remove('open');
+  } else {
+    dropEl.classList.add('open');
+  }
+});
+
+document.addEventListener('click', function(e) {
+  if (!dropEl.contains(e.target)) {
+    dropEl.classList.remove('open');
+  }
+});
+
+/* select language */
+for (var i = 0; i < optEls.length; i++) {
+  (function(idx) {
+    optEls[idx].addEventListener('click', function(e) {
+      e.stopPropagation();
+      curLang = idx;
+
+      /* update trigger */
+      triggerEl.querySelector('.t-flag').src = flagSrcs[idx];
+      triggerEl.querySelector('.t-code').textContent = codes[idx];
+
+      /* update active dot */
+      for (var j = 0; j < optEls.length; j++) {
+        optEls[j].classList.toggle('sel', j === idx);
+      }
+
+      /* close */
+      dropEl.classList.remove('open');
+
+      /* swap text */
+      var lang = langs[idx];
+      for (var k = 0; k < tEls.length; k++) { tEls[k].classList.add('fading'); }
+      setTimeout(function() {
+        for (var k = 0; k < tEls.length; k++) {
+          var key = tEls[k].getAttribute('data-key');
+          if (key && T[lang][key] !== undefined) {
+            tEls[k].innerHTML = T[lang][key];
+          }
+        }
+        for (var k = 0; k < tEls.length; k++) { tEls[k].classList.remove('fading'); }
+      }, 150);
+    });
+  })(i);
+}
+
+/* ── NAVBAR SCROLL ──────────────────── */
+var navEl = document.getElementById('navbar');
+window.addEventListener('scroll', function() {
+  navEl.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ── SCROLL REVEAL ──────────────────── */
+var revObs = new IntersectionObserver(function(entries) {
+  for (var i = 0; i < entries.length; i++) {
+    if (entries[i].isIntersecting) {
+      entries[i].target.classList.add('visible');
+      revObs.unobserve(entries[i].target);
+    }
+  }
+}, { threshold: 0.12 });
+var revEls = document.querySelectorAll('.reveal');
+for (var i = 0; i < revEls.length; i++) { revObs.observe(revEls[i]); }
+
+/* ── SMOOTH SCROLL ──────────────────── */
+var anchors = document.querySelectorAll('a[href^="#"]');
+for (var i = 0; i < anchors.length; i++) {
+  anchors[i].addEventListener('click', function(e) {
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  });
+}
+</script>
+</body>
+</html>
