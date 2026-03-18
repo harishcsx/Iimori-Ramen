@@ -8,8 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Shippori+Mincho:wght@400;500;600&family=Karla:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#0c0a08;--ink-light:#1a1612;--ember:#c8762a;--ember-light:#e8954a;--cream:#f2ead8;--cream-dim:#d6c9aa;--white:#faf6f0;--border:rgba(200,118,42,0.2);}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
 body{background:var(--ink);color:var(--cream);font-family:'Karla',sans-serif;font-weight:300;overflow-x:hidden;}
 nav{position:fixed;top:0;left:0;width:100%;z-index:200;padding:1.4rem 4rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(12,10,8,0.95),transparent);transition:background 0.4s;}
 nav.scrolled{background:rgba(12,10,8,0.97);border-bottom:1px solid var(--border);}
@@ -156,8 +155,7 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:3.5rem 4
 .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
 .reveal-delay-1{transition-delay:0.1s;}.reveal-delay-2{transition-delay:0.2s;}.reveal-delay-3{transition-delay:0.3s;}
-.t{transition:opacity 0.15s ease;}
-.t.fading{opacity:0;}
+.t{transition:opacity 0.15s ease;}.t.fading{opacity:0;}
 @media(max-width:1100px){nav{padding:1.2rem 2rem;}.nav-center{display:none;}.nav-reserve{display:none;}.menu-toggle{display:block;}}
 @media(max-width:768px){
   section{padding:5rem 2rem;}
@@ -172,14 +170,13 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:3.5rem 4
 </style>
 </head>
 <body>
-
 <nav id="navbar">
   <a class="nav-logo" href="#">飯盛<span>．</span>Iimori</a>
   <ul class="nav-center">
-    <li><a href="#about"   class="t" data-key="nav_story">Our Story</a></li>
-    <li><a href="#menu"    class="t" data-key="nav_menu">Menu</a></li>
+    <li><a href="#about" class="t" data-key="nav_story">Our Story</a></li>
+    <li><a href="#menu" class="t" data-key="nav_menu">Menu</a></li>
     <li><a href="#gallery" class="t" data-key="nav_gallery">Gallery</a></li>
-    <li><a href="#visit"   class="t" data-key="nav_visit">Visit Us</a></li>
+    <li><a href="#visit" class="t" data-key="nav_visit">Visit Us</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-dropdown" id="LD">
@@ -205,56 +202,36 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:3.5rem 4
     <button class="menu-toggle" id="HB"><span></span><span></span><span></span></button>
   </div>
 </nav>
-
 <div class="mobile-drawer" id="MD">
   <button class="dr-close" id="DC">&#x2715;</button>
-  <a href="#about"   class="t" data-key="nav_story">Our Story</a>
-  <a href="#menu"    class="t" data-key="nav_menu">Menu</a>
+  <a href="#about" class="t" data-key="nav_story">Our Story</a>
+  <a href="#menu" class="t" data-key="nav_menu">Menu</a>
   <a href="#gallery" class="t" data-key="nav_gallery">Gallery</a>
-  <a href="#visit"   class="t" data-key="nav_visit">Visit Us</a>
+  <a href="#visit" class="t" data-key="nav_visit">Visit Us</a>
   <a href="#visit" class="dr-reserve t" data-key="nav_reserve">Reserve a Table</a>
 </div>
-
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-overlay"></div>
-  <div class="steam-container">
-    <div class="steam"></div><div class="steam"></div><div class="steam"></div>
-    <div class="steam"></div><div class="steam"></div>
-  </div>
+  <div class="hero-bg"></div><div class="hero-overlay"></div>
+  <div class="steam-container"><div class="steam"></div><div class="steam"></div><div class="steam"></div><div class="steam"></div><div class="steam"></div></div>
   <div class="hero-content">
     <p class="hero-kana">ラーメン　— BERLIN MITTE —</p>
     <h1 class="hero-title">Iimori<br><em>Ramen</em></h1>
     <p class="hero-tagline t" data-key="hero_tagline">Handcrafted Broths · Artisan Noodles · Berlin</p>
     <div class="hero-divider"></div>
     <div class="hero-actions">
-      <a href="#menu"  class="btn-primary t" data-key="hero_btn1">Explore Menu</a>
-      <a href="#visit" class="btn-outline  t" data-key="hero_btn2">Find Us</a>
+      <a href="#menu" class="btn-primary t" data-key="hero_btn1">Explore Menu</a>
+      <a href="#visit" class="btn-outline t" data-key="hero_btn2">Find Us</a>
     </div>
   </div>
-  <div class="hero-scroll">
-    <span class="t" data-key="scroll">Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
+  <div class="hero-scroll"><span class="t" data-key="scroll">Scroll</span><div class="scroll-line"></div></div>
 </section>
-
 <div class="info-bar">
-  <div class="info-item reveal">
-    <span class="info-item-label t" data-key="ib_loc">Location</span>
-    <span class="info-item-value">Mulackstrasse 29<br>10119 Berlin</span>
-  </div>
+  <div class="info-item reveal"><span class="info-item-label t" data-key="ib_loc">Location</span><span class="info-item-value">Mulackstrasse 29<br>10119 Berlin</span></div>
   <div class="info-divider"></div>
-  <div class="info-item reveal reveal-delay-1">
-    <span class="info-item-label t" data-key="ib_hours">Opening Hours</span>
-    <span class="info-item-value t" data-key="ib_hours_val">Tue – Sun · 12:00 – 22:00<br>Monday Closed</span>
-  </div>
+  <div class="info-item reveal reveal-delay-1"><span class="info-item-label t" data-key="ib_hours">Opening Hours</span><span class="info-item-value t" data-key="ib_hours_val">Tue – Sun · 12:00 – 22:00<br>Monday Closed</span></div>
   <div class="info-divider"></div>
-  <div class="info-item reveal reveal-delay-2">
-    <span class="info-item-label t" data-key="ib_res">Reservations</span>
-    <span class="info-item-value">+49 30 000 00000<br>info@iimori-ramen.de</span>
-  </div>
+  <div class="info-item reveal reveal-delay-2"><span class="info-item-label t" data-key="ib_res">Reservations</span><span class="info-item-value">+49 30 000 00000<br>info@iimori-ramen.de</span></div>
 </div>
-
 <section id="about">
   <div class="about">
     <div class="about-image-wrap reveal">
@@ -275,7 +252,6 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:3.5rem 4
     </div>
   </div>
 </section>
-
 <section class="menu-section" id="menu">
   <div class="menu-inner">
     <div class="menu-header">
@@ -286,38 +262,20 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:3.5rem 4
     <div class="menu-grid">
       <div class="menu-card reveal">
         <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&q=80&fit=crop" alt="Tonkotsu">
-        <div class="menu-card-overlay">
-          <span class="menu-card-tag t" data-key="tag1">House Classic</span>
-          <div class="menu-card-name">Tonkotsu<br>Ramen</div>
-          <div class="menu-card-desc t" data-key="desc1">Creamy 18-hour pork bone broth, chashu pork belly, marinated soft-boiled egg, bamboo shoots, nori.</div>
-          <div class="menu-card-price">€ 16,90</div>
-        </div>
+        <div class="menu-card-overlay"><span class="menu-card-tag t" data-key="tag1">House Classic</span><div class="menu-card-name">Tonkotsu<br>Ramen</div><div class="menu-card-desc t" data-key="desc1">Creamy 18-hour pork bone broth, chashu pork belly, marinated soft-boiled egg, bamboo shoots, nori.</div><div class="menu-card-price">€ 16,90</div></div>
       </div>
       <div class="menu-card reveal reveal-delay-1">
         <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=600&q=80&fit=crop" alt="Shoyu">
-        <div class="menu-card-overlay">
-          <span class="menu-card-tag t" data-key="tag2">Chef's Choice</span>
-          <div class="menu-card-name">Shoyu<br>Ramen</div>
-          <div class="menu-card-desc t" data-key="desc2">Clear soy-seasoned chicken broth, roasted duck, menma, spring onion, sesame oil.</div>
-          <div class="menu-card-price">€ 15,90</div>
-        </div>
+        <div class="menu-card-overlay"><span class="menu-card-tag t" data-key="tag2">Chef's Choice</span><div class="menu-card-name">Shoyu<br>Ramen</div><div class="menu-card-desc t" data-key="desc2">Clear soy-seasoned chicken broth, roasted duck, menma, spring onion, sesame oil.</div><div class="menu-card-price">€ 15,90</div></div>
       </div>
       <div class="menu-card reveal reveal-delay-2">
         <img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&q=80&fit=crop&crop=center" alt="Miso">
-        <div class="menu-card-overlay">
-          <span class="menu-card-tag t" data-key="tag3">Vegetarian</span>
-          <div class="menu-card-name">Shiro<br>Miso</div>
-          <div class="menu-card-desc t" data-key="desc3">White miso broth, shiitake mushrooms, roasted corn, tofu, butter, ginger oil.</div>
-          <div class="menu-card-price">€ 14,90</div>
-        </div>
+        <div class="menu-card-overlay"><span class="menu-card-tag t" data-key="tag3">Vegetarian</span><div class="menu-card-name">Shiro<br>Miso</div><div class="menu-card-desc t" data-key="desc3">White miso broth, shiitake mushrooms, roasted corn, tofu, butter, ginger oil.</div><div class="menu-card-price">€ 14,90</div></div>
       </div>
     </div>
-    <div class="menu-cta reveal">
-      <a href="#visit" class="btn-outline t" data-key="menu_cta">View Full Menu</a>
-    </div>
+    <div class="menu-cta reveal"><a href="#visit" class="btn-outline t" data-key="menu_cta">View Full Menu</a></div>
   </div>
 </section>
-
 <div class="quote-section">
   <div class="quote-bg"></div>
   <div class="quote-content">
@@ -326,13 +284,9 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:3.5rem 4
     <p class="quote-attribution reveal reveal-delay-1 t" data-key="quote_attr">— The Iimori Philosophy</p>
   </div>
 </div>
-
 <section class="gallery-section" id="gallery">
   <div class="gallery-inner">
-    <div class="gallery-header">
-      <p class="section-label reveal t" data-key="gal_label">Atmosphere</p>
-      <h2 class="reveal reveal-delay-1 t" data-key="gal_title">A Glimpse Inside</h2>
-    </div>
+    <div class="gallery-header"><p class="section-label reveal t" data-key="gal_label">Atmosphere</p><h2 class="reveal reveal-delay-1 t" data-key="gal_title">A Glimpse Inside</h2></div>
     <div class="gallery-grid">
       <div class="gallery-item g1 reveal"><img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=800&q=80&fit=crop" alt="Ramen bowl"></div>
       <div class="gallery-item g2 reveal reveal-delay-1"><img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=600&q=80&fit=crop" alt="Ramen close-up"></div>
@@ -342,7 +296,6 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:3.5rem 4
     </div>
   </div>
 </section>
-
 <section class="info-section" id="visit">
   <div class="info-grid">
     <div class="info-col reveal">
@@ -372,146 +325,61 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:3.5rem 4
     </div>
   </div>
 </section>
-
 <div class="map-section">
   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2427.0!2d13.4042!3d52.5268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a84e3b4d7cdbeb%3A0x1!2sMulackstra%C3%9Fe+29%2C+10119+Berlin!5e0!3m2!1sen!2sde!4v1" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map"></iframe>
 </div>
-
 <footer>
   <div class="footer-logo">飯盛<span>．</span>Iimori Ramen</div>
   <ul class="footer-links">
-    <li><a href="#about"   class="t" data-key="nav_story">Our Story</a></li>
-    <li><a href="#menu"    class="t" data-key="nav_menu">Menu</a></li>
+    <li><a href="#about" class="t" data-key="nav_story">Our Story</a></li>
+    <li><a href="#menu" class="t" data-key="nav_menu">Menu</a></li>
     <li><a href="#gallery" class="t" data-key="nav_gallery">Gallery</a></li>
-    <li><a href="#visit"   class="t" data-key="nav_visit">Visit Us</a></li>
+    <li><a href="#visit" class="t" data-key="nav_visit">Visit Us</a></li>
     <li><a href="mailto:info@iimori-ramen.de" class="t" data-key="nav_contact">Contact</a></li>
   </ul>
   <p class="footer-copy">© 2025 Iimori Ramen · Berlin Mitte</p>
 </footer>
-
 <script>
-var T = {
-  en:{
-    nav_story:"Our Story",nav_menu:"Menu",nav_gallery:"Gallery",nav_visit:"Visit Us",nav_contact:"Contact",nav_reserve:"Reserve a Table",
-    hero_tagline:"Handcrafted Broths · Artisan Noodles · Berlin",hero_btn1:"Explore Menu",hero_btn2:"Find Us",scroll:"Scroll",
-    ib_loc:"Location",ib_hours:"Opening Hours",ib_hours_val:"Tue – Sun · 12:00 – 22:00<br>Monday Closed",ib_res:"Reservations",
-    about_label:"Our Story",about_title:"Where Tokyo<br><em>meets Berlin</em>",
-    about_p1:"Nestled in the heart of Berlin Mitte's vibrant Scheunenviertel quarter, Iimori Ramen brings the soul of Japanese ramen culture to the cobblestone streets of Berlin. We believe that a great bowl of ramen is not just a meal — it is a ritual.",
-    about_p2:"Every broth is simmered for 18 hours. Every noodle is pulled fresh each morning. Our ingredients are sourced directly from Japanese producers and trusted Berlin-based farms, creating a bridge between two food cultures we love deeply.",
-    stat1:"Broth Simmered",stat2:"Fresh Noodles",stat3:"Signature Bowls",
-    menu_label:"Signature Bowls",menu_title:"Our Menu",menu_sub:"Each bowl tells a story. Hover to discover ours.",
-    tag1:"House Classic",tag2:"Chef's Choice",tag3:"Vegetarian",
-    desc1:"Creamy 18-hour pork bone broth, chashu pork belly, marinated soft-boiled egg, bamboo shoots, nori.",
-    desc2:"Clear soy-seasoned chicken broth, roasted duck, menma, spring onion, sesame oil.",
-    desc3:"White miso broth, shiitake mushrooms, roasted corn, tofu, butter, ginger oil.",
-    menu_cta:"View Full Menu",
-    quote:'"A bowl of ramen is the quiet courage of a long simmer — patience made visible."',
-    quote_attr:"— The Iimori Philosophy",
-    gal_label:"Atmosphere",gal_title:"A Glimpse Inside",
-    visit_h1:"Opening Hours",visit_h2:"Find Us",visit_h3:"Contact",
-    day_tuth:"Tuesday – Thursday",day_fri:"Friday",day_sat:"Saturday",day_sun:"Sunday",day_mon:"Monday",closed:"Closed",
-    maps_link:"Open in Google Maps →",c_phone:"Phone",c_email:"Email",c_ubahn:"Nearest U-Bahn"
-  },
-  de:{
-    nav_story:"Unsere Geschichte",nav_menu:"Speisekarte",nav_gallery:"Galerie",nav_visit:"Besuchen",nav_contact:"Kontakt",nav_reserve:"Tisch Reservieren",
-    hero_tagline:"Handgemachte Bruhen · Frische Nudeln · Berlin",hero_btn1:"Speisekarte",hero_btn2:"Anfahrt",scroll:"Weiter",
-    ib_loc:"Adresse",ib_hours:"Offnungszeiten",ib_hours_val:"Di – So · 12:00 – 22:00<br>Montag Geschlossen",ib_res:"Reservierung",
-    about_label:"Unsere Geschichte",about_title:"Wo Tokio auf<br><em>Berlin trifft</em>",
-    about_p1:"Mitten im lebhaften Scheunenviertel in Berlin Mitte bringt Iimori Ramen die Seele der japanischen Ramen-Kultur auf das Kopfsteinpflaster Berlins. Wir glauben: Eine gute Schusssel Ramen ist mehr als eine Mahlzeit — sie ist ein Ritual.",
-    about_p2:"Jede Bruhe wird 18 Stunden lang gekochelt. Jede Nudel wird jeden Morgen frisch gezogen. Unsere Zutaten stammen direkt von japanischen Erzeugern und vertrauenswurdigen Berliner Hofen.",
-    stat1:"Stunden Kochzeit",stat2:"Frische Nudeln",stat3:"Signature Bowls",
-    menu_label:"Signature Bowls",menu_title:"Speisekarte",menu_sub:"Jede Schusssel erzahlt eine Geschichte. Entdecken Sie unsere.",
-    tag1:"Hausklassiker",tag2:"Empfehlung des Kuchenchefs",tag3:"Vegetarisch",
-    desc1:"Cremige 18-Stunden-Schweineknochenbruhe, Chashu-Schweinebauch, mariniertes Ei, Bambussprossen, Nori.",
-    desc2:"Klare Soja-Huhnerbruhe, gebratene Ente, Menma, Fruhlingszwiebeln, Sesamol.",
-    desc3:"Weisse Misobruhe, Shiitake-Pilze, geroosteter Mais, Tofu, Butter, Ingwerol.",
-    menu_cta:"Gesamte Speisekarte",
-    quote:'"Eine Schusssel Ramen ist der stille Mut eines langen Kochelns — Geduld, die sichtbar wird."',
-    quote_attr:"— Die Iimori Philosophie",
-    gal_label:"Atmosphare",gal_title:"Ein Blick ins Innere",
-    visit_h1:"Offnungszeiten",visit_h2:"So Finden Sie Uns",visit_h3:"Kontakt",
-    day_tuth:"Dienstag – Donnerstag",day_fri:"Freitag",day_sat:"Samstag",day_sun:"Sonntag",day_mon:"Montag",closed:"Geschlossen",
-    maps_link:"In Google Maps Offnen →",c_phone:"Telefon",c_email:"E-Mail",c_ubahn:"Nachste U-Bahn"
-  }
-};
+var T={en:{nav_story:"Our Story",nav_menu:"Menu",nav_gallery:"Gallery",nav_visit:"Visit Us",nav_contact:"Contact",nav_reserve:"Reserve a Table",hero_tagline:"Handcrafted Broths · Artisan Noodles · Berlin",hero_btn1:"Explore Menu",hero_btn2:"Find Us",scroll:"Scroll",ib_loc:"Location",ib_hours:"Opening Hours",ib_hours_val:"Tue – Sun · 12:00 – 22:00<br>Monday Closed",ib_res:"Reservations",about_label:"Our Story",about_title:"Where Tokyo<br><em>meets Berlin</em>",about_p1:"Nestled in the heart of Berlin Mitte's vibrant Scheunenviertel quarter, Iimori Ramen brings the soul of Japanese ramen culture to the cobblestone streets of Berlin. We believe that a great bowl of ramen is not just a meal — it is a ritual.",about_p2:"Every broth is simmered for 18 hours. Every noodle is pulled fresh each morning. Our ingredients are sourced directly from Japanese producers and trusted Berlin-based farms, creating a bridge between two food cultures we love deeply.",stat1:"Broth Simmered",stat2:"Fresh Noodles",stat3:"Signature Bowls",menu_label:"Signature Bowls",menu_title:"Our Menu",menu_sub:"Each bowl tells a story. Hover to discover ours.",tag1:"House Classic",tag2:"Chef's Choice",tag3:"Vegetarian",desc1:"Creamy 18-hour pork bone broth, chashu pork belly, marinated soft-boiled egg, bamboo shoots, nori.",desc2:"Clear soy-seasoned chicken broth, roasted duck, menma, spring onion, sesame oil.",desc3:"White miso broth, shiitake mushrooms, roasted corn, tofu, butter, ginger oil.",menu_cta:"View Full Menu",quote:'"A bowl of ramen is the quiet courage of a long simmer — patience made visible."',quote_attr:"— The Iimori Philosophy",gal_label:"Atmosphere",gal_title:"A Glimpse Inside",visit_h1:"Opening Hours",visit_h2:"Find Us",visit_h3:"Contact",day_tuth:"Tuesday – Thursday",day_fri:"Friday",day_sat:"Saturday",day_sun:"Sunday",day_mon:"Monday",closed:"Closed",maps_link:"Open in Google Maps →",c_phone:"Phone",c_email:"Email",c_ubahn:"Nearest U-Bahn"},de:{nav_story:"Unsere Geschichte",nav_menu:"Speisekarte",nav_gallery:"Galerie",nav_visit:"Besuchen",nav_contact:"Kontakt",nav_reserve:"Tisch Reservieren",hero_tagline:"Handgemachte Bruhen · Frische Nudeln · Berlin",hero_btn1:"Speisekarte",hero_btn2:"Anfahrt",scroll:"Weiter",ib_loc:"Adresse",ib_hours:"Offnungszeiten",ib_hours_val:"Di – So · 12:00 – 22:00<br>Montag Geschlossen",ib_res:"Reservierung",about_label:"Unsere Geschichte",about_title:"Wo Tokio auf<br><em>Berlin trifft</em>",about_p1:"Mitten im lebhaften Scheunenviertel in Berlin Mitte bringt Iimori Ramen die Seele der japanischen Ramen-Kultur auf das Kopfsteinpflaster Berlins. Wir glauben: Eine gute Schusssel Ramen ist mehr als eine Mahlzeit — sie ist ein Ritual.",about_p2:"Jede Bruhe wird 18 Stunden lang gekochelt. Jede Nudel wird jeden Morgen frisch gezogen. Unsere Zutaten stammen direkt von japanischen Erzeugern und vertrauenswurdigen Berliner Hofen.",stat1:"Stunden Kochzeit",stat2:"Frische Nudeln",stat3:"Signature Bowls",menu_label:"Signature Bowls",menu_title:"Speisekarte",menu_sub:"Jede Schusssel erzahlt eine Geschichte. Entdecken Sie unsere.",tag1:"Hausklassiker",tag2:"Empfehlung des Kuchenchefs",tag3:"Vegetarisch",desc1:"Cremige 18-Stunden-Schweineknochenbruhe, Chashu-Schweinebauch, mariniertes Ei, Bambussprossen, Nori.",desc2:"Klare Soja-Huhnerbruhe, gebratene Ente, Menma, Fruhlingszwiebeln, Sesamol.",desc3:"Weisse Misobruhe, Shiitake-Pilze, geroosteter Mais, Tofu, Butter, Ingwerol.",menu_cta:"Gesamte Speisekarte",quote:'"Eine Schusssel Ramen ist der stille Mut eines langen Kochelns — Geduld, die sichtbar wird."',quote_attr:"— Die Iimori Philosophie",gal_label:"Atmosphare",gal_title:"Ein Blick ins Innere",visit_h1:"Offnungszeiten",visit_h2:"So Finden Sie Uns",visit_h3:"Kontakt",day_tuth:"Dienstag – Donnerstag",day_fri:"Freitag",day_sat:"Samstag",day_sun:"Sonntag",day_mon:"Montag",closed:"Geschlossen",maps_link:"In Google Maps Offnen →",c_phone:"Telefon",c_email:"E-Mail",c_ubahn:"Nachste U-Bahn"}};
+var LK=['en','de'],FL=['https://flagcdn.com/24x18/gb.png','https://flagcdn.com/24x18/de.png'],CD=['EN','DE'];
+var MD=document.getElementById('MD');
 
-var langKeys = ['en','de'];
-var flags    = ['https://flagcdn.com/24x18/gb.png','https://flagcdn.com/24x18/de.png'];
-var codes    = ['EN','DE'];
+/* hamburger */
+document.getElementById('HB').addEventListener('click',function(){MD.classList.add('open');});
+document.getElementById('DC').addEventListener('click',function(){MD.classList.remove('open');});
 
-/* --- hamburger --- */
-document.getElementById('HB').onclick = function(){
-  document.getElementById('MD').classList.add('open');
-};
-document.getElementById('DC').onclick = function(){
-  document.getElementById('MD').classList.remove('open');
-};
-var dlinks = document.getElementById('MD').querySelectorAll('a');
-for(var d=0;d<dlinks.length;d++){
-  dlinks[d].onclick = function(){
-    document.getElementById('MD').classList.remove('open');
-  };
-}
-
-/* --- language dropdown --- */
-var LD = document.getElementById('LD');
-var LT = document.getElementById('LT');
-var LM = document.getElementById('LM');
-var opts = [document.getElementById('opt0'), document.getElementById('opt1')];
-var tels = document.querySelectorAll('.t');
-
-LT.onclick = function(e){
-  e.stopPropagation();
-  LD.classList.toggle('open');
-};
-document.onclick = function(e){
-  if(!LD.contains(e.target)) LD.classList.remove('open');
-};
-
+/* language */
+var LD=document.getElementById('LD'),LT=document.getElementById('LT'),o0=document.getElementById('opt0'),o1=document.getElementById('opt1');
+var tel=document.querySelectorAll('.t');
+LT.addEventListener('click',function(e){e.stopPropagation();LD.classList.toggle('open');});
+document.addEventListener('click',function(e){if(!LD.contains(e.target))LD.classList.remove('open');});
 function pickLang(i){
-  LT.querySelector('.t-flag').src = flags[i];
-  LT.querySelector('.t-code').textContent = codes[i];
-  opts[0].classList.toggle('sel', i===0);
-  opts[1].classList.toggle('sel', i===1);
+  LT.querySelector('.t-flag').src=FL[i];LT.querySelector('.t-code').textContent=CD[i];
+  o0.classList.toggle('sel',i===0);o1.classList.toggle('sel',i===1);
   LD.classList.remove('open');
-  var lang = langKeys[i];
-  for(var k=0;k<tels.length;k++) tels[k].classList.add('fading');
-  setTimeout(function(){
-    for(var k=0;k<tels.length;k++){
-      var key = tels[k].getAttribute('data-key');
-      if(key && T[lang][key]!==undefined) tels[k].innerHTML = T[lang][key];
-    }
-    for(var k=0;k<tels.length;k++) tels[k].classList.remove('fading');
-  },150);
+  var lg=LK[i];
+  for(var k=0;k<tel.length;k++)tel[k].classList.add('fading');
+  setTimeout(function(){for(var k=0;k<tel.length;k++){var key=tel[k].getAttribute('data-key');if(key&&T[lg][key]!==undefined)tel[k].innerHTML=T[lg][key];}for(var k=0;k<tel.length;k++)tel[k].classList.remove('fading');},150);
 }
+o0.addEventListener('click',function(e){e.stopPropagation();pickLang(0);});
+o1.addEventListener('click',function(e){e.stopPropagation();pickLang(1);});
 
-opts[0].onclick = function(e){ e.stopPropagation(); pickLang(0); };
-opts[1].onclick = function(e){ e.stopPropagation(); pickLang(1); };
+/* navbar scroll */
+var NB=document.getElementById('navbar');
+window.addEventListener('scroll',function(){NB.classList.toggle('scrolled',window.scrollY>60);});
 
-/* --- navbar scroll --- */
-var nb = document.getElementById('navbar');
-window.onscroll = function(){ nb.classList.toggle('scrolled', window.scrollY>60); };
+/* scroll reveal */
+var RO=new IntersectionObserver(function(en){for(var i=0;i<en.length;i++){if(en[i].isIntersecting){en[i].target.classList.add('visible');RO.unobserve(en[i].target);}}},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(function(el){RO.observe(el);});
 
-/* --- scroll reveal --- */
-var ro = new IntersectionObserver(function(entries){
-  for(var i=0;i<entries.length;i++){
-    if(entries[i].isIntersecting){
-      entries[i].target.classList.add('visible');
-      ro.unobserve(entries[i].target);
-    }
-  }
-},{threshold:0.12});
-var rels = document.querySelectorAll('.reveal');
-for(var i=0;i<rels.length;i++) ro.observe(rels[i]);
-
-/* --- smooth scroll --- */
-var ancs = document.querySelectorAll('a[href^="#"]');
-for(var i=0;i<ancs.length;i++){
-  ancs[i].onclick = function(e){
-    var t = document.querySelector(this.getAttribute('href'));
-    if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }
-  };
-}
+/* smooth scroll — also closes drawer */
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    MD.classList.remove('open');
+    var tgt=document.querySelector(a.getAttribute('href'));
+    if(tgt){e.preventDefault();tgt.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
 </script>
 </body>
 </html>
